@@ -1,16 +1,18 @@
 var forecast10day;
 
-function getWeatherData(data, column){
+function getWeatherData(data){
   forecast10Day = data;
   console.log(forecast10Day);
+  var $list = document.getElementById("five-day-forecast");
+  $list.innerHTML = "";
   for (var i = 0; i < 5; i++) {
-    addDayToList(i, column);
+    addDayToList(i);
   }
 }
 
-function addDayToList(index, column){
+function addDayToList(index){
   var day = forecast10Day.forecast.simpleforecast.forecastday[index];
-  var $target = document.getElementById("five-day-37217");
+  var $target = document.getElementById("five-day-forecast");
   var $div = document.createElement("div");
   var $li = document.createElement("li");
   var $day = document.createElement("h4");
@@ -35,7 +37,7 @@ function getJSON(url, cb){
   xhr.send();
 }
 
-function getJSONP(url, cbName, column){
+function getJSONP(url, cbName){
   var $script = document.createElement('script');
   $script.src = url + '?callback=' + cbName;
   document.body.appendChild($script);
@@ -74,14 +76,14 @@ function locate(){
 
 
 document.addEventListener('DOMContentLoaded', function(){
-  var url = 'http://api.wunderground.com/api/c5c13a87b815793c/forecast10day/q/37217.json';
+//  var url = 'http://api.wunderground.com/api/c5c13a87b815793c/forecast10day/q/37217.json';
 
     
-  var column = document.getElementById('zip-code-input');
+//  var column = document.getElementById('zip-code-input');
 
-  getJSONP(url, 'getWeatherData', column);
+//  getJSONP(url, 'getWeatherData', column);
     
-  var $form = document.getElementById("submit-form");
+  var $form = document.getElementById("submit-zipcode");
   $form.addEventListener("submit", function(event){
     event.preventDefault();
 
@@ -92,17 +94,20 @@ document.addEventListener('DOMContentLoaded', function(){
     console.log(length);
     if (typeof test === "number" && length === 5) {
       var url = 'http://api.wunderground.com/api/c5c13a87b815793c/forecast10day/q/' + $zip + '.json';
-      getJSONP(url, 'getWeatherData', column);
+      getJSONP(url, 'getWeatherData');
     }
     else {
       alert("Please enter a valid zip code.");
     }
   }); 
   var $form2 = document.getElementById("submit-geolocate");
-
+  $form2.addEventListener("submit", function(event){
+    event.preventDefault();
+    locate();
+  });
 
   if ("geolocation" in navigator) {
-     locate();
+     console.log("geolocation available");
   } else {
     alert("Geolocation not available currently");
   }  

@@ -7,20 +7,18 @@
     <title>Weather App</title>
   <body>
     <div>
-      <h3>5 Day Forecast for 37217</h3>
-      <ul id="five-day-37217">
-      </ul>
-    </div>
-    <div>
-      <h3>Enter 5 Digit Zip Code</h3>
-      <form id="submit-form">
-        <input type="text" name="zipcode" id="zip-code-input" value="Enter Zip Code"/>
-        <input type="submit" value="Forecast"/>
+      <h3>Please Enter a 5 Digit Zip Code</h3>
+      <form id="submit-zipcode">
+        <input type="text" name="zipcode" id="zip-code-input" placeholder="Enter Zip Code"/>
+        <input type="submit" value="Get Forecast"/>
       </form>
-      <ul id="five-day-user">
-      </ul>
+      <h4>Or Get Weather Based On Your Location:</h4>
       <form id="submit-geolocate">
+        <input type="submit" value="Use Location"/>
       </form>
+      <h4>Next five days:</h4>
+      <ul id="five-day-forecast">
+      </ul>
     </div>
   </body>
   <script src="main.js"></script>
