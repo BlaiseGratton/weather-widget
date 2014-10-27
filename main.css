@@ -1,1 +1,45 @@
+#wrapper {
+  padding: 3em;
+  margin: 0 auto;
+  max-width: 60%;
+  height: 100%;
+  background-color: lightblue;
+}
 
+h3, h4 {
+  color: darkblue;
+  text-align: center;
+}
+
+form {
+  margin: auto;
+  max-width: 40%;
+  text-align: center;
+}
+
+ul {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+li {
+  display: inline-block;
+  list-style: none;
+  margin-right: 2%;
+  max-width: 18%;
+
+}
+
+li h4 {
+  color: darkgrey;
+
+}
+
+li img {
+  max-height: 25%;
+  max-width: 90%;
+  background-color: white;
+  border-radius: 20px;
+  padding: 2%;
+  margin: 5%;
+}

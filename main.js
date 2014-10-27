@@ -18,12 +18,15 @@ function addDayToList(index){
   var $day = document.createElement("h4");
   var $high = document.createElement("p");
   var $low = document.createElement("p");
+  var $img = document.createElement("img");
   $day.textContent = day.date.weekday;
   $high.textContent = ("High of " + day.high.fahrenheit);
   $low.textContent = ("Low of " + day.low.fahrenheit);
+  $img.src = day.icon_url;
   $div.appendChild($day);
   $div.appendChild($high);
   $div.appendChild($low);
+  $div.appendChild($img);
   $li.appendChild($div);
   $target.appendChild($li);   
 }
@@ -43,9 +46,6 @@ function getJSONP(url, cbName){
   document.body.appendChild($script);
 }
 
-
-
-
 function locate(){
   navigator.geolocation.getCurrentPosition(success, error);
   function success(position){
@@ -56,33 +56,21 @@ function locate(){
     var latlng = "latlng=" + latitude + "," + longitude;
     var coordUrl = 'https://maps.googleapis.com/maps/api/geocode/json?' + latlng + '&key=AIzaSyCrTE8aisnYZLkIS1t4E8xp8RQ4Vmaz_yU';
     console.log(coordUrl);
-    var geoData;
-    var zip;
     getJSON(coordUrl, function(data){
-      geoData = data;
+      var geoData = data;
       console.log(geoData);
-      zip = geoData.results[1].address_components[0].long_name;
+      var zip = geoData.results[1].address_components[0].long_name;
       console.log(zip);
       var url = 'http://api.wunderground.com/api/c5c13a87b815793c/forecast10day/q/' + zip + '.json';
       getJSONP(url, 'getWeatherData');
     });  
-
-
   }
   function error(){
     console.log("unable to retrieve location");
   }
 }
 
-
 document.addEventListener('DOMContentLoaded', function(){
-//  var url = 'http://api.wunderground.com/api/c5c13a87b815793c/forecast10day/q/37217.json';
-
-    
-//  var column = document.getElementById('zip-code-input');
-
-//  getJSONP(url, 'getWeatherData', column);
-    
   var $form = document.getElementById("submit-zipcode");
   $form.addEventListener("submit", function(event){
     event.preventDefault();
