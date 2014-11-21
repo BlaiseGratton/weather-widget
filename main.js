@@ -1,10 +1,10 @@
 var forecast10day;
 
 function getWeatherData(data){
+  var $target = document.querySelector('#five-day-forecast');
+  $target.innerHTML = '';
   forecast10Day = data;
   console.log(forecast10Day);
-  var $list = document.getElementById("five-day-forecast");
-  $list.innerHTML = "";
   for (var i = 0; i < 5; i++) {
     addDayToList(i);
   }
@@ -12,7 +12,7 @@ function getWeatherData(data){
 
 function addDayToList(index){
   var day = forecast10Day.forecast.simpleforecast.forecastday[index];
-  var $target = document.getElementById("five-day-forecast");
+  var $target = document.querySelector("#five-day-forecast");
   var $div = document.createElement("div");
   var $li = document.createElement("li");
   var $day = document.createElement("h4");
@@ -46,6 +46,9 @@ function getJSONP(url, cbName){
   document.body.appendChild($script);
 }
 
+
+
+
 function locate(){
   navigator.geolocation.getCurrentPosition(success, error);
   function success(position){
@@ -56,48 +59,53 @@ function locate(){
     var latlng = "latlng=" + latitude + "," + longitude;
     var coordUrl = 'https://maps.googleapis.com/maps/api/geocode/json?' + latlng + '&key=AIzaSyCrTE8aisnYZLkIS1t4E8xp8RQ4Vmaz_yU';
     console.log(coordUrl);
+    var geoData;
+    var zip;
     getJSON(coordUrl, function(data){
-      var geoData = data;
+      geoData = data;
       console.log(geoData);
-      var zip = geoData.results[1].address_components[0].long_name;
+      zip = geoData.results[1].address_components[0].long_name;
       console.log(zip);
       var url = 'http://api.wunderground.com/api/c5c13a87b815793c/forecast10day/q/' + zip + '.json';
       getJSONP(url, 'getWeatherData');
     });  
+
+
   }
   function error(){
     console.log("unable to retrieve location");
   }
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-  var $form = document.getElementById("submit-zipcode");
-  $form.addEventListener("submit", function(event){
+//$(document).ready(function(){
+document.addEventListener('DOMContentLoaded', function() {
+  var $form = $('#submit-zipcode');
+  $form.submit(function(event){
     event.preventDefault();
 
-    var $zip = document.getElementById("zip-code-input").value;
+    var $zip = document.querySelector("#zip-code-input").value;
     var test = Number($zip);
     var length = $zip.length;
     console.log(test);
     console.log(length);
     if (typeof test === "number" && length === 5) {
       var url = 'http://api.wunderground.com/api/c5c13a87b815793c/forecast10day/q/' + $zip + '.json';
+      
       getJSONP(url, 'getWeatherData');
     }
     else {
       alert("Please enter a valid zip code.");
     }
-  }); 
-  var $form2 = document.getElementById("submit-geolocate");
-  $form2.addEventListener("submit", function(event){
-    event.preventDefault();
-    locate();
   });
 
-  if ("geolocation" in navigator) {
-     console.log("geolocation available");
-  } else {
+  var $form2 = $('#submit-geolocate');
+  $form2.submit(function(event){
+    event.preventDefault();
+    if ("geolocation" in navigator) {
+      console.log("geolocation available");
+    } else {
     alert("Geolocation not available currently");
-  }  
-  
+    }
+    locate();
+  });
 });

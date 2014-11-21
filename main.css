@@ -18,15 +18,16 @@ form {
 }
 
 ul {
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
+
 }
 
 li {
   display: inline-block;
   list-style: none;
   margin-right: 2%;
-  max-width: 18%;
+  width: 18%;
 
 }
 
@@ -42,4 +43,21 @@ li img {
   border-radius: 20px;
   padding: 2%;
   margin: 5%;
+}
+
+@media screen and (max-width : 480px) {
+  li {
+    display: block;
+  }
+  
+  li img {
+    display: inline;
+    float: right;
+    clear: left;
+  }
+
+  li p {
+    display: inline;
+    float: left;
+  }
 }
